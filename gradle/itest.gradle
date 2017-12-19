@@ -1,0 +1,38 @@
+
+sourceSets {
+  integrationTest {
+    java {
+      compileClasspath += main.output + test.output
+      runtimeClasspath += main.output + test.output
+      srcDir file('src/test/java')
+    }
+  }
+}
+
+task integrationTest(type: Test) {
+  testClassesDir = sourceSets.integrationTest.output.classesDir
+  classpath = sourceSets.integrationTest.runtimeClasspath
+  outputs.upToDateWhen { false }
+}
+
+integrationTest {
+  testLogging {
+    events "passed", "skipped", "failed" //, "standardOut", "standardError"
+    exceptionFormat 'full'
+  }
+}
+
+apply plugin: "jacoco"
+
+jacocoTestReport {
+  doFirst {
+    executionData = fileTree(dir: "$buildDir/jacoco", include: '**/*.exec')
+  }
+
+  reports {
+    xml.enabled true
+    csv.enabled false
+    html.destination "${buildDir}/reports/coverage"
+  }
+}
+

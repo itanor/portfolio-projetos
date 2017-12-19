@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 import javax.persistence.Embedded;
 import javax.persistence.Convert;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -16,13 +17,16 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 
+import java.util.List;
+
 @Entity
 public class Project {
    
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(columnDefinition = "serial")
-  private Integer projectId;
+  //@GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  //@Column(columnDefinition = "serial")
+  private Long projectId;
 
   private String name;
 
@@ -50,6 +54,17 @@ public class Project {
 
   @ManyToOne
   private Status status;
+
+  @OneToMany
+  private List<Member> members;
+
+  public void setMembers(List<Member> members) {
+    this.members = members;
+  }
+
+  public List<Member> getMembers() {
+    return members;
+  }
 
   public Status getStatus() {
     return status;
@@ -105,12 +120,26 @@ public class Project {
     return name;
   }
 
-  public Integer getProjectId() {
+  public Long getProjectId() {
     return projectId;
   }
 
   public String toString() {
     return "";
+  }
+
+  public boolean canDelete() {
+    return status.getId() != Status.STARTED
+        && status.getId() != Status.PROGRESS
+        && status.getId() != Status.FINISHED;
+  }
+
+  public void toAssociate(Member member) {
+    if(member.isEmployee()) {
+      members.add(member);
+      return;
+    }
+    throw new IllegalArgumentException();
   }
 }
 

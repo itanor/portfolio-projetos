@@ -2,11 +2,13 @@ package teste;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import java.util.List;
 
-public interface ProjectRepository extends JpaRepository<Project, Integer> {
+@Repository
+public interface ProjectRepository extends JpaRepository<Project, Long> {
   
-  public Project findByProjectId(Integer projectId);
+  public Project findByProjectId(Long projectId);
   public List<Project> findAll();
 }
 

@@ -32,7 +32,7 @@ public class ProjectController {
   }
 
   @RequestMapping(value = "/project/{id}", method = DELETE)
-  public void delete(@PathVariable Integer id) {
+  public void delete(@PathVariable Long id) {
     projects.delete(id);
   }
 }

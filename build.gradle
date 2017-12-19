@@ -28,6 +28,21 @@ dependencies {
 
   compile 'org.postgresql:postgresql:9.4-1201-jdbc41'
 
+  compile "nl.jqno.equalsverifier:equalsverifier:2.1.5"
+  runtime "org.hsqldb:hsqldb"
+  testCompile "com.jayway.jsonpath:json-path:0.9.1"
+  testCompile "org.springframework.security:spring-security-test"
+
   testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+test {
+  testLogging {
+    events "passed", "skipped", "failed", "standardOut", "standardError"
+    exceptionFormat 'full'
+  }
+}
+
+apply from: "${rootProject.rootDir}/gradle/itest.configurations.gradle"
+apply from: "${rootProject.rootDir}/gradle/itest.gradle"
 

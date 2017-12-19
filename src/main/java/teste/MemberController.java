@@ -23,7 +23,10 @@ public class MemberController {
 
   @RequestMapping(value = "/member", method = POST)
   public Member save(@RequestBody Member member) {
-    return members.save(member);
+    if(member.haveName() && member.haveAssignmentType()) {
+      return members.save(member);
+    }
+    throw new MemberDoNotHaveNameOrAssignmentException();
   }
 }
 

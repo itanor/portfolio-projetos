@@ -9,15 +9,26 @@ import javax.persistence.Id;
 @Entity
 public class Status {
 
+  public static final int STARTED  = 4;
+  public static final int PROGRESS = 6;
+  public static final int FINISHED = 7;
+
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(columnDefinition = "serial")
-  private Integer id;
+  //@GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  //@Column(columnDefinition = "serial")
+  private Long id;
 
   @Column(length = 255)
   private String description;
 
-  public void setId(Integer id) {
+  public Status() {}
+
+  public Status(Long id) {
+    this.id = id;
+  }
+
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -29,7 +40,7 @@ public class Status {
     this.description = description;
   }
 
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 }
