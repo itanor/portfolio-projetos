@@ -7,16 +7,11 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
-
 @SpringBootApplication
 @EnableAutoConfiguration
-public class WebApplication /*extends SpringBootServletInitializer*/ {
-      /*@Override
-          protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-                    return application.sources(WebApplication.class);
-                        }*/
+public class WebApplication {
 
-          public static void main(String[] args) throws Exception {
-                    SpringApplication.run(WebApplication.class, args);
-                        }
+  public static void main(String[] args) throws Exception {
+    SpringApplication.run(WebApplication.class, args);
+  }
 }
