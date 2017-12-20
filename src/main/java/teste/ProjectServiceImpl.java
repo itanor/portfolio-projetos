@@ -9,7 +9,13 @@ public class ProjectServiceImpl implements ProjectService {
   @Autowired
   ProjectRepository projects;
 
+  @Autowired
+  StatusRepository status;
+
   public Project save(Project project) {
+    if(project.isNew()) {
+      project.setStatus(status.findById(new Long(Status.STARTED)));
+    }
     return projects.save(project);
   }
 

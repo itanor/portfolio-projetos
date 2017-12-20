@@ -43,5 +43,9 @@ public class Status {
   public Long getId() {
     return id;
   }
+
+  public static Status started() {
+    return new Status(new Long(STARTED));
+  }
 }
 

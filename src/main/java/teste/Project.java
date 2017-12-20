@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Embedded;
 import javax.persistence.Convert;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -28,8 +29,10 @@ public class Project {
   //@Column(columnDefinition = "serial")
   private Long projectId;
 
+  @NotNull
   private String name;
 
+  @NotNull
   @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
   @JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
   @Convert(converter = LocalDateConverter.class)
@@ -140,6 +143,10 @@ public class Project {
       return;
     }
     throw new IllegalArgumentException();
+  }
+
+  public boolean isNew() {
+    return projectId == null;
   }
 }
 

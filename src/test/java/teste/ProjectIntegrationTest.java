@@ -2,6 +2,7 @@ package teste;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +23,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.test.context.TestConfiguration;
+
+import java.time.LocalDateTime;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -47,16 +50,29 @@ public class ProjectIntegrationTest {
   @Autowired
   MemberService memberService;
 
+  @Autowired
+  ProjectRepository projectRepository;
+
+  @Autowired
+  StatusRepository statusRepository;
+
   @Test
   public void mustSaveAProject() {
-    assertNotNull(projectService.save(new Project()));
+    Project project = new Project();
+    project.setName("My second project");
+    project.setStartDate(LocalDateTime.now());
+
+    statusRepository.save(Status.started());
+    assertTrue(statusRepository.findAll().size() == 1);
+
+    assertNotNull(projectService.save(project));
+    assertTrue(projectRepository.findAll().size() == 1);
   }
 
   @Test(expected = ProjectStartedProgressFinishedException.class)
   public void doNotDeleteWhenStartedProgressOrFinished() {
     Project p = new Project();
-    Status started = new Status(4L);
-    p.setStatus(started);
+    p.setStatus(Status.started());
 
     projectService.delete(p);
   }
